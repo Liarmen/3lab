@@ -1,0 +1,279 @@
+Microsoft Windows [Version 10.0.18363.1256]
+(c) Корпорация Майкрософт (Microsoft Corporation), 2019. Все права защищены.
+
+C:\Users\Admin\Desktop\aws3>aws configure
+AWS Access Key ID [****************NF72]: AKIAX4YGSJ**********
+AWS Secret Access Key [****************rjx4]: Q/AAKagBq8RFw/Z7AxgKI7s8qW+Itu**********
+Default region name [us-east-2]:
+Default output format [json]:
+
+C:\Users\Admin\Desktop\aws3>aws ec2 create-security-group --group-name Lab3 --description "for 3lab"
+{
+    "GroupId": "sg-0696f56f3d7bc201f"
+}
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 authorize-security-group-ingress --group-id sg-0696f56f3d7bc201f --protocol tcp --port 22 --cidr 0.0.0.0/0
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 authorize-security-group-ingress --group-id sg-0696f56f3d7bc201f --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 authorize-security-group-ingress --group-id sg-0696f56f3d7bc201f --protocol tcp --port 443 --cidr 0.0.0.0/0
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 run-instances --image-id ami-03657b56516ab7912 --count 1 --instance-type t2.micro --key-name MyNewKeypair --associate-public-ip-address --user-data file://UserData.txt --security-group-ids sg-03f5a39f8c74e1f7a --iam-instance-profile Name=EC2-S3Read-Role
+
+Error parsing parameter '--user-data': Unable to load paramfile file://UserData.txt: [Errno 2] No such file or directory: 'UserData.txt'
+
+C:\Users\Admin\Desktop\aws3>aws ec2 run-instances --image-id ami-09558250a3419e7d0 --count 1 --instance-type t2.micro --key-name 3lab key --associate-public-ip-address --user-data UserData.txt --security-group-ids sg-0696f56f3d7bc201f
+
+usage: aws [options] <command> <subcommand> [<subcommand> ...] [parameters]
+To see help text, you can run:
+
+  aws help
+  aws <command> help
+  aws <command> <subcommand> help
+
+Unknown options: key
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 run-instances --image-id ami-09558250a3419e7d0 --count 1 --instance-type t2.micro --key-name 3labkey --associate-public-ip-address --user-data UserData.txt --security-group-ids sg-0696f56f3d7bc201f
+
+An error occurred (InvalidKeyPair.NotFound) when calling the RunInstances operation: The key pair '3labkey' does not exist
+
+C:\Users\Admin\Desktop\aws3>aws ec2 run-instances --image-id ami-09558250a3419e7d0 --count 1 --instance-type t2.micro --key-name 3lab2try --associate-public-ip-address --user-data UserData.txt --security-group-ids sg-0696f56f3d7bc201f
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-09558250a3419e7d0",
+            "InstanceId": "i-03d1546d22e67a6bd",
+            "InstanceType": "t2.micro",
+            "KeyName": "3lab2try",
+            "LaunchTime": "2020-12-18T15:48:59+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-2a",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-0-102.us-east-2.compute.internal",
+            "PrivateIpAddress": "172.31.0.102",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-00b8b72919c28d909",
+            "VpcId": "vpc-0209ff8265e6c791e",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "4f1fa09d-b43e-4b23-a59a-1cfb4c9f6f9e",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-18T15:48:59+00:00",
+                        "AttachmentId": "eni-attach-0f534917843082770",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "Lab3",
+                            "GroupId": "sg-0696f56f3d7bc201f"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "02:75:30:20:bd:e0",
+                    "NetworkInterfaceId": "eni-01146385ccbca64b3",
+                    "OwnerId": "542790273134",
+                    "PrivateDnsName": "ip-172-31-0-102.us-east-2.compute.internal",
+                    "PrivateIpAddress": "172.31.0.102",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-0-102.us-east-2.compute.internal",
+                            "PrivateIpAddress": "172.31.0.102"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-00b8b72919c28d909",
+                    "VpcId": "vpc-0209ff8265e6c791e",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "Lab3",
+                    "GroupId": "sg-0696f56f3d7bc201f"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "542790273134",
+    "ReservationId": "r-0c266ce99a2cb3140"
+}
+
+
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>
+C:\Users\Admin\Desktop\aws3>aws ec2 create-tags --resources i-03d1546d22e67a6bd --tags Key=Name,Value=Lab3
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 create-image --instance-id i-08a0f01fb80ccf28b --name "AMI 3lab"
+{
+    "ImageId": "ami-0b51579c4acffa4fd"
+}
+
+
+C:\Users\Admin\Desktop\aws3>aws ec2 run-instances --image-id ami-0b51579c4acffa4fd --count 1 --instance-type t2.micro --key-name 3lab2try --associate-public-ip-address --security-group-ids sg-0696f56f3d7bc201f
+{
+    "Groups": [],
+    "Instances": [
+        {
+            "AmiLaunchIndex": 0,
+            "ImageId": "ami-0b51579c4acffa4fd",
+            "InstanceId": "i-06fb8e8137f9559d6",
+            "InstanceType": "t2.micro",
+            "KeyName": "3lab2try",
+            "LaunchTime": "2020-12-18T16:26:21+00:00",
+            "Monitoring": {
+                "State": "disabled"
+            },
+            "Placement": {
+                "AvailabilityZone": "us-east-2b",
+                "GroupName": "",
+                "Tenancy": "default"
+            },
+            "PrivateDnsName": "ip-172-31-20-235.us-east-2.compute.internal",
+            "PrivateIpAddress": "172.31.20.235",
+            "ProductCodes": [],
+            "PublicDnsName": "",
+            "State": {
+                "Code": 0,
+                "Name": "pending"
+            },
+            "StateTransitionReason": "",
+            "SubnetId": "subnet-02ac11d7337defcb2",
+            "VpcId": "vpc-0209ff8265e6c791e",
+            "Architecture": "x86_64",
+            "BlockDeviceMappings": [],
+            "ClientToken": "6e6fb5b8-da56-437c-90ca-55006c6b1b28",
+            "EbsOptimized": false,
+            "EnaSupport": true,
+            "Hypervisor": "xen",
+            "NetworkInterfaces": [
+                {
+                    "Attachment": {
+                        "AttachTime": "2020-12-18T16:26:21+00:00",
+                        "AttachmentId": "eni-attach-01b334d3de8d5caee",
+                        "DeleteOnTermination": true,
+                        "DeviceIndex": 0,
+                        "Status": "attaching"
+                    },
+                    "Description": "",
+                    "Groups": [
+                        {
+                            "GroupName": "Lab3",
+                            "GroupId": "sg-0696f56f3d7bc201f"
+                        }
+                    ],
+                    "Ipv6Addresses": [],
+                    "MacAddress": "06:a7:78:18:f0:6c",
+                    "NetworkInterfaceId": "eni-054e6a85dda883c3a",
+                    "OwnerId": "542790273134",
+                    "PrivateDnsName": "ip-172-31-20-235.us-east-2.compute.internal",
+                    "PrivateIpAddress": "172.31.20.235",
+                    "PrivateIpAddresses": [
+                        {
+                            "Primary": true,
+                            "PrivateDnsName": "ip-172-31-20-235.us-east-2.compute.internal",
+                            "PrivateIpAddress": "172.31.20.235"
+                        }
+                    ],
+                    "SourceDestCheck": true,
+                    "Status": "in-use",
+                    "SubnetId": "subnet-02ac11d7337defcb2",
+                    "VpcId": "vpc-0209ff8265e6c791e",
+                    "InterfaceType": "interface"
+                }
+            ],
+            "RootDeviceName": "/dev/xvda",
+            "RootDeviceType": "ebs",
+            "SecurityGroups": [
+                {
+                    "GroupName": "Lab3",
+                    "GroupId": "sg-0696f56f3d7bc201f"
+                }
+            ],
+            "SourceDestCheck": true,
+            "StateReason": {
+                "Code": "pending",
+                "Message": "pending"
+            },
+            "VirtualizationType": "hvm",
+            "CpuOptions": {
+                "CoreCount": 1,
+                "ThreadsPerCore": 1
+            },
+            "CapacityReservationSpecification": {
+                "CapacityReservationPreference": "open"
+            },
+            "MetadataOptions": {
+                "State": "pending",
+                "HttpTokens": "optional",
+                "HttpPutResponseHopLimit": 1,
+                "HttpEndpoint": "enabled"
+            },
+            "EnclaveOptions": {
+                "Enabled": false
+            }
+        }
+    ],
+    "OwnerId": "542790273134",
+    "ReservationId": "r-0352de24d523d4321"
+}
+
+
+C:\Users\Admin\Desktop\aws3>
